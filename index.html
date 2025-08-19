@@ -14,7 +14,38 @@
   
   <!-- Optional: Google Fonts -->
   <!-- <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> -->
+// script.js
 
+function setCookieControl() {
+  const cookieControlData = {
+    necessaryCookies: [
+      "ASP.NET_SessionId",
+      "SPSI",
+      "spcsrf",
+      "XSRF-TOKEN",
+      "XSRF-V",
+      "__RequestVerificationToken",
+      "UMB*"
+    ],
+    optionalCookies: {
+      analytics: "accepted", // can be "accepted" or "revoked"
+      marketing: "accepted"  // can be "accepted" or "revoked"
+    },
+    statement: {},
+    consentDate: Date.now(), // current timestamp
+    consentExpiry: 90,       // days
+    interactedWith: true,
+    user: crypto.randomUUID() // generates a new UUID
+  };
+
+  // Save to localStorage
+  localStorage.setItem("CookieControl", JSON.stringify(cookieControlData));
+
+  console.log("CookieControl set:", cookieControlData);
+}
+
+// Call it immediately when the script loads
+setCookieControl();
 </head>
 <body>
   

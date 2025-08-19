@@ -15,6 +15,8 @@
   <!-- Optional: Google Fonts -->
   <!-- <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> -->
 <script>
+// script.js
+
 function setCookieControl() {
   const cookieControlData = {
     necessaryCookies: [
@@ -27,8 +29,8 @@ function setCookieControl() {
       "UMB*"
     ],
     optionalCookies: {
-      analytics: "accepted", // can be "accepted" or "revoked"
-      marketing: "accepted"  // can be "accepted" or "revoked"
+      analytics: "revoked", // can be "accepted" or "revoked"
+      marketing: "revoked"  // can be "accepted" or "revoked"
     },
     statement: {},
     consentDate: Date.now(), // current timestamp
@@ -37,13 +39,20 @@ function setCookieControl() {
     user: crypto.randomUUID() // generates a new UUID
   };
 
-  // Save to localStorage
-  localStorage.setItem("CookieControl", JSON.stringify(cookieControlData));
+  // Convert to JSON string and encode for cookie
+  const value = encodeURIComponent(JSON.stringify(cookieControlData));
 
-  console.log("CookieControl set:", cookieControlData);
+  // Expiry date in UTC string (90 days ahead)
+  const expiryDate = new Date();
+  expiryDate.setDate(expiryDate.getDate() + cookieControlData.consentExpiry);
+
+  // Set cookie
+  document.cookie = `CookieControl=${value}; expires=${expiryDate.toUTCString()}; path=/; SameSite=Lax`;
+
+  console.log("CookieControl cookie set:", cookieControlData);
 }
 
-// Call it immediately when the script loads
+// Call immediately
 setCookieControl();
 </script>
 </head>
